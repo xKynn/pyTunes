@@ -1,0 +1,4 @@
+websockets
+pyaudio
+spotipy
+ytmusicapi

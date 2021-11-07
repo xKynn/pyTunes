@@ -27,5 +27,6 @@ No YT music login required.
 `yt_main.py` demo
 
 
-https://user-images.githubusercontent.com/65694382/140658583-35f7785b-14d3-4ad5-8ff9-6325e767a365.mp4
+
+https://user-images.githubusercontent.com/65694382/140658626-b8d66847-55d6-44eb-99e2-2dd79e86ddf2.mp4
 

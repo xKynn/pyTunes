@@ -2,3 +2,4 @@ websockets
 pyaudio
 spotipy
 ytmusicapi
+PyQt5

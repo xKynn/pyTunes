@@ -1,6 +1,8 @@
 # pyTunes
 HackNC 2021 Project
 
+<img src="https://github.com/xKynn/pyTunes/raw/main/meta/pyTunes-showcase.gif" width=30%>
+
 ## Setting Up
 Once the repo is cloned, install the requirements through `pip install -r ./requirements.txt`
 Once that is done, edit `configure.py` with your AssemblyAI authorization key.

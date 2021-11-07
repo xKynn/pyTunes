@@ -12,7 +12,6 @@ from ui import uifunc
 from ytm import start_yt_music
 from spotipy.oauth2 import SpotifyOAuth
 
-
 os.environ["SPOTIPY_CLIENT_ID"] = SPOTIPY_CLIENT_ID
 os.environ["SPOTIPY_CLIENT_SECRET"] = SPOTIPY_CLIENT_SECRET
 os.environ["SPOTIPY_REDIRECT_URI"] = SPOTIPY_REDIRECT_URI
@@ -20,9 +19,8 @@ os.environ["SPOTIPY_REDIRECT_URI"] = SPOTIPY_REDIRECT_URI
 is_fully_processed = False
 SONGS_QUANT = 20
 
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope="user-library-read,user-modify-playback-state,user-read-playback-state"))
-print(sp.current_user())
-user = sp.user(SPOTIFY_USERNAME)
+sp = spotipy.Spotify(
+    auth_manager=SpotifyOAuth(scope="user-library-read,user-modify-playback-state,user-read-playback-state"))
 
 # Lazy caching of tracks, we cache tracks only when we need to fulfill SONG_QUANT
 # and there wasn't enough in the first 50
@@ -51,14 +49,13 @@ stream = p.open(
     frames_per_buffer=FRAMES_PER_BUFFER
 )
 
-
 # the AssemblyAI endpoint we're going to hit
 URL = "wss://api.assemblyai.com/v2/realtime/ws?sample_rate=16000"
+
 
 # Load 50 tracks from starting offset, dump into cache
 
 async def load_user_tracks():
-
     tracks = sp.current_user_saved_tracks(limit=50, offset=lazy_track_cache['last_offset'])
     lazy_track_cache['tracks'].extend(tracks['items'])
     lazy_track_cache['last_offset'] = lazy_track_cache['last_offset'] + 50
@@ -66,6 +63,7 @@ async def load_user_tracks():
     # If there were less tracks than our request, we are at the end of the users list
     if len(tracks) < 50:
         is_fully_processed = True
+
 
 # Filter songs by artists' genre tags
 
@@ -78,7 +76,6 @@ async def filter_genres(genre: str, tracks: list):
         genre = genre.split(" ")
     elif len(genre.split("-")) > 1:
         genre = genre.split("-")
-
 
     # Try to match genres
 
@@ -98,6 +95,7 @@ async def filter_genres(genre: str, tracks: list):
 
     print(local_queue)
 
+
 async def recommend(genre: str):
     # Try to filter genres with cached tracks
     # If QUANT isn't satisfied we go agane
@@ -109,7 +107,7 @@ async def recommend(genre: str):
         await filter_genres(genre, lazy_track_cache['tracks'])
 
     offset = 50
-    while(len(local_queue) < SONGS_QUANT and not is_fully_processed):
+    while (len(local_queue) < SONGS_QUANT and not is_fully_processed):
         await load_user_tracks()
         await asyncio.sleep(1)
         if (lazy_track_cache['tracks'][offset:]):
@@ -134,7 +132,7 @@ async def queue_local_tracks():
 
     # If our selected device isnt active, start playing the first song so we have access to a queue
     if not main_device['is_active']:
-        sp.start_playback(device_id=main_device['id'], uris=[local_queue[0],])
+        sp.start_playback(device_id=main_device['id'], uris=[local_queue[0], ])
         await asyncio.sleep(3)
         for track in local_queue[1:]:
             sp.add_to_queue(track)
@@ -154,8 +152,6 @@ async def queue_local_tracks():
 
 
 async def send_receive():
-    print('Waiting for Alt + X')
-    # keyboard.wait('alt+x')
     async with websockets.connect(
             URL,
             extra_headers=(("Authorization", auth_key),),
@@ -163,10 +159,10 @@ async def send_receive():
             ping_timeout=20
     ) as _ws:
         await asyncio.sleep(0.1)
-        print("Receiving SessionBegins ...")
         session_begins = await _ws.recv()
         print(session_begins)
-        print("Sending messages ...")
+        print("Waiting for button press ...")
+
         while True:
             try:
                 if pc.poll():
@@ -176,6 +172,7 @@ async def send_receive():
             except:
                 pass
         pc.send("Listening...")
+
         async def send():
             while True:
                 try:
@@ -229,9 +226,12 @@ async def send_receive():
 
 
 if __name__ == "__main__":
+
+    # Pipe for communication with UI child
     pc, cc = Pipe()
-    p = Process(target=uifunc, args=(cc, ))
+    p = Process(target=uifunc, args=(cc,))
     p.start()
+
     while 1:
         try:
             asyncio.run(send_receive())

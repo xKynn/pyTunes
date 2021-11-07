@@ -21,6 +21,7 @@ is_fully_processed = False
 SONGS_QUANT = 20
 
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope="user-library-read,user-modify-playback-state,user-read-playback-state"))
+print(sp.current_user())
 user = sp.user(SPOTIFY_USERNAME)
 
 # Lazy caching of tracks, we cache tracks only when we need to fulfill SONG_QUANT

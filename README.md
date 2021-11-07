@@ -23,3 +23,7 @@ Alternatively, `yt_main.py` can be run for those who only want to use YouTube Mu
 To run `yt_main.py` the AssemblyAI authorization key needs to be added to the top of the file. 
 
 No YT music login required.
+
+`yt_main.py` demo
+https://user-images.githubusercontent.com/65694382/140658583-35f7785b-14d3-4ad5-8ff9-6325e767a365.mp4
+

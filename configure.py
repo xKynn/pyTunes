@@ -1,0 +1,4 @@
+auth_key = "<assembly-AI-auth-key>"
+SPOTIPY_CLIENT_ID = "739b8a16770d4fc681cdb7a011e7b15e"
+SPOTIPY_CLIENT_SECRET = "f259d62520a743caa222de6578cc21a8"
+SPOTIPY_REDIRECT_URI = "http://localhost:8080"

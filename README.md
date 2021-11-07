@@ -18,4 +18,4 @@ Examples: `play pop music`, `play pop`, `play edm`.
 ## YTMusic
 YouTube Music is used as a fallback for if you don't have a Spotify premium account, which Spotify needs you to for these API calls.
 
-Alternatively, yt_main.py can be run for those who only want to use YouTube Music to search for songs.
+Alternatively, `yt_main.py` can be run for those who only want to use YouTube Music to search for songs.
